@@ -1,7 +1,6 @@
 from djitellopy import Tello
 import time
 
-
 def main():
     # Create Tello object
     tello = Tello()
