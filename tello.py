@@ -12,14 +12,13 @@ def main():
     # Take off
     tello.takeoff()
 
-    # Hover for 2 seconds
-    time.sleep(2)
+    time.sleep(5)
 
-    # Keyboard Controls
-    # Takeoff : ? Land: x 
+    # KEYBOARD CONTROLS
     # WASD (Forward, left, back, right)
     # Rotate left: Q Rotate right: E
-    # Higher: h Lower: l
+    # Higher: H  Lower: L
+    # Land: x 
     
     while True:
         controller = input("Enter command: ").strip().lower()
@@ -45,6 +44,8 @@ def main():
             break
         else:
             print("unknown control")
+
+
 
 if __name__ == "__main__":
     main()
