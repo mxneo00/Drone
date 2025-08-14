@@ -1,6 +1,8 @@
 from djitellopy import Tello
 import time
 
+#def speeds(lr_speed, height_speed, fb_speed):
+
 def main():
     # Create Tello object
     tello = Tello()
@@ -21,7 +23,6 @@ def main():
     # Land: x 
     
     # Adjust to use the send_rc_control command
-
     
     while True:
         controller = input("Enter command: ").strip().lower()
