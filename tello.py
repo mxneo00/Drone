@@ -11,28 +11,40 @@ def main():
 
     # Take off
     tello.takeoff()
-    
-    # Fly forward 50 cm
-    tello.move_forward(150)
-
-    # Rotate clockwise 90 degrees
-    tello.rotate_clockwise(90)
 
     # Hover for 2 seconds
     time.sleep(2)
-
-    tello.rotate_clockwise(90)
-    time.sleep(5)
-
-    # Land
-    tello.land()
 
     # Keyboard Controls
     # Takeoff : ? Land: x 
     # WASD (Forward, left, back, right)
     # Rotate left: Q Rotate right: E
-    # Higher:  Lower: 
+    # Higher: h Lower: l
     
+    while True:
+        controller = input("Enter command: ").strip().lower()
+
+        if controller == "w":
+            tello.move_forward(20)
+        elif controller == "s":
+            tello.move_back(20)
+        elif controller == "a":
+            tello.move_left(20)
+        elif controller == "d":
+            tello.move_right(20)
+        elif controller == "q":
+            tello.rotate_counter_clockwise(20)
+        elif controller == "e":
+            tello.rotate_clockwise(20)
+        elif controller == "h":
+            tello.move_up(20)
+        elif controller == "l":
+            tello.move_down(20)
+        elif controller == "x":
+            tello.land()
+            break
+        else:
+            print("unknown control")
 
 if __name__ == "__main__":
     main()
