@@ -11,7 +11,7 @@ def main():
 
     # Take off
     tello.takeoff()
-
+    
     # Fly forward 50 cm
     tello.move_forward(150)
 
@@ -26,6 +26,13 @@ def main():
 
     # Land
     tello.land()
+
+    # Keyboard Controls
+    # Takeoff : ? Land: x 
+    # WASD (Forward, left, back, right)
+    # Rotate left: Q Rotate right: E
+    # Higher:  Lower: 
+    
 
 if __name__ == "__main__":
     main()
