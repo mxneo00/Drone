@@ -1,6 +1,9 @@
 from djitellopy import Tello
 import time
 
+
+DISTANCE = 50
+
 def main():
     # Create Tello object
     tello = Tello()
@@ -24,21 +27,21 @@ def main():
         controller = input("Enter command: ").strip().lower()
 
         if controller == "w":
-            tello.move_forward(20)
+            tello.move_forward(DISTANCE)
         elif controller == "s":
-            tello.move_back(20)
+            tello.move_back(DISTANCE)
         elif controller == "a":
-            tello.move_left(20)
+            tello.move_left(DISTANCE)
         elif controller == "d":
-            tello.move_right(20)
+            tello.move_right(DISTANCE)
         elif controller == "q":
-            tello.rotate_counter_clockwise(20)
+            tello.rotate_counter_clockwise(DISTANCE)
         elif controller == "e":
-            tello.rotate_clockwise(20)
+            tello.rotate_clockwise(DISTANCE)
         elif controller == "h":
-            tello.move_up(20)
+            tello.move_up(DISTANCE)
         elif controller == "l":
-            tello.move_down(20)
+            tello.move_down(DISTANCE)
         elif controller == "x":
             tello.land()
             break
