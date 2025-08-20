@@ -1,53 +1,93 @@
 from djitellopy import Tello
 import time
+import pygame
+import logging
 
-#def speeds(lr_speed, height_speed, fb_speed):
+logging.basicConfig(level=logging.INFO, format='%(threadName)s: %(message)s')
+
+SPEED = 20
+
+def initDrone(tello):
+    # Error handling
+    try:
+        tello.connect()
+        logging.info(f"Battery: {tello.get_battery()}%")
+        cmd = tello.send_command_with_return("command")
+        logging.info(f"Command response: {cmd}")
+        tello.send_rc_control(0, 0, 0, 0)
+        return True
+
+    except Exception as e:
+        logging.error(f"Failed to connect: {e}")
+        return False
+
 
 def main():
-    # Create Tello object
+
+    pygame.init()
+    screen = pygame.display.set_mode((400,300))
+    pygame.display.set_caption("Drone Keyboard control")
+
     tello = Tello()
 
-    # Connect to the drone
-    tello.connect()
-    print(f"Battery: {tello.get_battery()}%")
-
+    if not initDrone():
+        logging.error("Connection failure")
+        pygame.quit()
+        return
+    
     # Take off
     tello.takeoff()
-
     time.sleep(5)
 
-    # KEYBOARD CONTROLS
-    # WASD (Forward, left, back, right)
-    # Rotate left: Q Rotate right: E
-    # Higher: H  Lower: L
-    # Land: x 
-    
-    # Adjust to use the send_rc_control command
-    
-    while True:
-        controller = input("Enter command: ").strip().lower()
+    running = True
+    while running:
+        fb = 0
+        lr = 0
+        ud = 0
+        yaw = 0
 
-        if controller == "w":
-            tello.move_forward(20)
-        elif controller == "s":
-            tello.move_back(20)
-        elif controller == "a":
-            tello.move_left(20)
-        elif controller == "d":
-            tello.move_right(20)
-        elif controller == "q":
-            tello.rotate_counter_clockwise(20)
-        elif controller == "e":
-            tello.rotate_clockwise(20)
-        elif controller == "h":
-            tello.move_up(20)
-        elif controller == "l":
-            tello.move_down(20)
-        elif controller == "x":
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        keys = pygame.key.get_pressed()
+
+        # Directional
+        if keys[pygame.K_w]:
+            fb = SPEED
+        elif keys[pygame.K_s]:
+            fb = -SPEED
+
+        if keys[pygame.K_a]:
+            lr = -SPEED
+        elif keys[pygame.K_d]:
+            lr = SPEED
+
+        # Vertical
+        if keys[pygame.K_UP]:
+            ud = SPEED
+        elif keys[pygame.K_DOWN]:
+            ud = -SPEED
+
+        # Rotation
+        if keys[pygame.K_q]:
+            yaw = -SPEED
+        elif keys[pygame.K_e]:
+            yaw = SPEED
+        
+        # Landing
+        if keys[pygame.K_ESCAPE]:
+            tello.send_rc_control(0, 0, 0, 0)
             tello.land()
-            break
-        else:
-            print("unknown control")
+            running = False
+
+        tello.send_rc_control(lr, fb, ud, yaw)
+
+        pygame.time.delay(50)
+
+    pygame.quit()
+
+    
 
 
 
